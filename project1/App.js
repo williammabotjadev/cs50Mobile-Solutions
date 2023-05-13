@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, Alert, TextInput } from 'react-native';
+import CountDown from 'react-native-countdown-component';
 
 export default function App() {
   return (
@@ -7,9 +8,15 @@ export default function App() {
       <Text 
         style={styles.mainText}
       >Work Timer</Text>
-      <Text 
-        style={styles.clockText}
-      >00:00</Text>
+      <CountDown
+        until={1500}
+        size={30}
+        onFinish={() => alert('Time for a Break!')}
+        digitStyle={{backgroundColor: '#FFF'}}
+        digitTxtStyle={{color: '#000'}}
+        timeToShow={['M', 'S']}
+        timeLabels={{m: 'MM', s: 'SS'}}
+      />
       <View style={styles.flexRow}>
         <Pressable
           title="Start"
