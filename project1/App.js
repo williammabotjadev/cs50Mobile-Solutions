@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, Alert, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Alert, TextInput, DevSettings } from 'react-native';
 import CountDown from 'react-native-countdown-component';
 
 export default function App() {
@@ -15,11 +15,10 @@ export default function App() {
 
   const handleReset = () => {
     setTimerValue(1500);
-    console.log("timer value handler")
   }
 
   React.useEffect(() => {
-      handleReset();
+      console.log("timer value reset")
   }, [timerValue])
 
   React.useEffect(() => {
@@ -63,7 +62,7 @@ export default function App() {
         </Pressable>
         <Pressable
           title="Reset"
-          onPress={handleReset}
+          onPress={() => DevSettings.reload()}
           style={styles.buttonRight}
         >
           <Text style={styles.fontStyle}>Reset</Text>
