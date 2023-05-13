@@ -48,7 +48,7 @@ export default function App() {
         running={runningState}
         showSeparator={true}
         timeToShow={['M', 'S']}
-        timeLabels={{m: 'MM', s: 'SS'}}
+        timeLabels={{m: null, s: null}}
       />
       <View style={styles.flexRow}>
         <Pressable
