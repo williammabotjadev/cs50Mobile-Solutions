@@ -1,33 +1,59 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, Alert, TextInput } from 'react-native';
 import CountDown from 'react-native-countdown-component';
 
 export default function App() {
+
+  const [runningState, setRunningState] = React.useState(true);
+  const [timerValue, setTimerValue] = React.useState(1500);
+
+  const handleReset = () => {
+    setTimerValue(1500)
+  }
+
+  React.useEffect(() => {
+      handleReset();
+  }, [timerValue])
+  
   return (
     <View style={styles.container}>
       <Text 
         style={styles.mainText}
       >Work Timer</Text>
       <CountDown
-        until={1500}
-        size={30}
+        until={timerValue}
+        size={50}
         onFinish={() => alert('Time for a Break!')}
         digitStyle={{backgroundColor: '#FFF'}}
-        digitTxtStyle={{color: '#000'}}
+        digitTxtStyle={{
+          color: '#000',
+          fontSize: 64
+        }}
+        
+        separatorStyle={{
+          color: "black",
+          fontSize: 64,
+          marginBottom: 40
+        }}
+        running={runningState}
+        showSeparator={true}
         timeToShow={['M', 'S']}
         timeLabels={{m: 'MM', s: 'SS'}}
       />
       <View style={styles.flexRow}>
         <Pressable
-          title="Start"
-          onPress={() => Alert.alert('Left button pressed')}
+          title={runningState ? "Pause" : "Start" }
+          onPress={() => {
+              setRunningState(state => !state);
+          }}
           style={styles.buttonLeft}
         >
           <Text style={styles.fontStyle}>Start</Text>
         </Pressable>
         <Pressable
           title="Reset"
-          onPress={() => Alert.alert('Right button pressed')}
+          onPress={handleReset}
           style={styles.buttonRight}
         >
           <Text style={styles.fontStyle}>Reset</Text>
