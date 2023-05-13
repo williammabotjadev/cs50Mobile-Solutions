@@ -2,16 +2,19 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, Alert, TextInput, DevSettings } from 'react-native';
 import CountDown from 'react-native-countdown-component';
+import { vibrate } from './utils/index';
+
 
 export default function App() {
 
   const [runningState, setRunningState] = React.useState(true);
-  const [timerValue, setTimerValue] = React.useState(1500);
+  const [timerValue, setTimerValue] = React.useState(15);
   const [workValue, setWorkValue] = React.useState(25);
   const [breakValue, setBreakValue] = React.useState(5);
   const [workValueSecs, setWorkValueSecs] = React.useState(0);
   const [breakValueSecs, setBreakValueSecs] = React.useState(0);
   const [startPauseLabel, setStartPauseLabel] = React.useState(runningState ? "Start" : "Pause");
+  const [isBreak, setIsBreak] = React.useState(false);
 
   const handleReset = () => {
     setTimerValue(1500);
@@ -41,6 +44,11 @@ export default function App() {
       setWorkValueSecs(state => parseInt(e["nativeEvent"].text));
   }
 
+  const handleBreak = () => {
+    vibrate();
+    setIsBreak(state => !state);
+  }
+
   React.useEffect(() => {
       console.log("timer value reset");
   }, [timerValue])
@@ -56,15 +64,14 @@ export default function App() {
         style={styles.mainText}
       >Work Timer</Text>
       <CountDown
-        until={timerValue}
+        until={isBreak ? 300 : 1500}
         size={50}
-        onFinish={() => alert('Time for a Break!')}
+        onFinish={handleBreak}
         digitStyle={{backgroundColor: '#FFF'}}
         digitTxtStyle={{
           color: '#000',
           fontSize: 64
         }}
-        
         separatorStyle={{
           color: "black",
           fontSize: 64,
@@ -96,16 +103,16 @@ export default function App() {
         <View style={styles.workTime}>
               <Text style={styles.workTimeTitle}>Work Time: </Text>
               <Text style={styles.inputLabel}>Mins: </Text>
-              <TextInput style={styles.timeInput} value={workValue?.toString()} onChange={handleWorkMins} />
+              <TextInput style={styles.timeInput} editable={false} value={workValue?.toString()} />
               <Text style={styles.inputLabelSecs}>Secs: </Text>
-              <TextInput style={styles.timeInputSecs} value={workValueSecs?.toString()} onChange={handleWorkSecs} />
+              <TextInput style={styles.timeInputSecs} editable={false} value={workValueSecs?.toString()} />
         </View>
         <View style={styles.breakTime}>
               <Text style={styles.breakTimeTitle}>Break Time: </Text>
               <Text style={styles.inputLabel}>Mins: </Text>
-              <TextInput style={styles.timeInput} editable={true} value={breakValue?.toString()} onChange={handleBreakMins} />
+              <TextInput style={styles.timeInput} editable={false} value={breakValue?.toString()} />
               <Text style={styles.inputLabelSecs}>Secs: </Text>
-              <TextInput style={styles.timeInputSecs} editable={true} value={breakValueSecs?.toString()} onChange={handleBreakSecs} />
+              <TextInput style={styles.timeInputSecs} editable={false} value={breakValueSecs?.toString()} />
         </View>
       </View>
       <StatusBar style="auto" />
