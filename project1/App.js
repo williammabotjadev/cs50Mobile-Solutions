@@ -11,6 +11,7 @@ export default function App() {
   const [breakValue, setBreakValue] = React.useState(5);
   const [workValueSecs, setWorkValueSecs] = React.useState(0);
   const [breakValueSecs, setBreakValueSecs] = React.useState(0);
+  const [startPauseLabel, setStartPauseLabel] = React.useState(runningState ? "Pause" : "Start");
 
   const handleReset = () => {
     setTimerValue(1500);
@@ -22,7 +23,8 @@ export default function App() {
   }, [timerValue])
 
   React.useEffect(() => {
-      console.log("running state changed!")
+      console.log("running state changed!");
+      setStartPauseLabel(state => state === "Pause" ? "Start" : "Pause");
   }, [runningState])
   
   return (
@@ -43,7 +45,7 @@ export default function App() {
         separatorStyle={{
           color: "black",
           fontSize: 64,
-          marginBottom: 40
+          marginBottom: 12
         }}
         running={runningState}
         showSeparator={true}
@@ -52,13 +54,12 @@ export default function App() {
       />
       <View style={styles.flexRow}>
         <Pressable
-          title={runningState ? "Pause" : "Start" }
           onPress={() => {
               setRunningState(state => !state);
           }}
           style={styles.buttonLeft}
         >
-          <Text style={styles.fontStyle}>Start</Text>
+          <Text style={styles.fontStyle}>{startPauseLabel}</Text>
         </Pressable>
         <Pressable
           title="Reset"
