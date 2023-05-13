@@ -7,14 +7,23 @@ export default function App() {
 
   const [runningState, setRunningState] = React.useState(true);
   const [timerValue, setTimerValue] = React.useState(1500);
+  const [workValue, setWorkValue] = React.useState(25);
+  const [breakValue, setBreakValue] = React.useState(5);
+  const [workValueSecs, setWorkValueSecs] = React.useState(0);
+  const [breakValueSecs, setBreakValueSecs] = React.useState(0);
 
   const handleReset = () => {
-    setTimerValue(1500)
+    setTimerValue(1500);
+    console.log("timer value handler")
   }
 
   React.useEffect(() => {
       handleReset();
   }, [timerValue])
+
+  React.useEffect(() => {
+      console.log("running state changed!")
+  }, [runningState])
   
   return (
     <View style={styles.container}>
@@ -63,16 +72,16 @@ export default function App() {
         <View style={styles.workTime}>
               <Text style={styles.workTimeTitle}>Work Time: </Text>
               <Text style={styles.inputLabel}>Mins: </Text>
-              <TextInput style={styles.timeInput} />
+              <TextInput style={styles.timeInput} value={workValue.toString()} />
               <Text style={styles.inputLabelSecs}>Secs: </Text>
-              <TextInput style={styles.timeInput} />
+              <TextInput style={styles.timeInputSecs} value={workValueSecs.toString()} />
         </View>
         <View style={styles.breakTime}>
               <Text style={styles.breakTimeTitle}>Break Time: </Text>
               <Text style={styles.inputLabel}>Mins: </Text>
-              <TextInput style={styles.timeInput} />
+              <TextInput style={styles.timeInput} value={breakValue.toString()} />
               <Text style={styles.inputLabelSecs}>Secs: </Text>
-              <TextInput style={styles.timeInput} />
+              <TextInput style={styles.timeInputSecs} value={breakValueSecs.toString()} />
         </View>
       </View>
       <StatusBar style="auto" />
@@ -139,6 +148,16 @@ const styles = StyleSheet.create({
   timeInput: {
     width: '15%',
     borderColor: 'black',
+    color: 'black',
+    borderRadius: 10,
+    borderWidth: 1,
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  timeInputSecs: {
+    width: '15%',
+    borderColor: 'black',
+    color: 'black',
     borderRadius: 10,
     borderWidth: 1,
     paddingLeft: 10,
