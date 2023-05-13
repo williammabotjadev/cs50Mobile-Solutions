@@ -1,14 +1,23 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import { View, Button } from 'react-native';
 
 const Stack = createStackNavigator();
+
+function HomeScreen({ navigation }) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Button
+          title="Go to Profile"
+          onPress={() => navigation.navigate('Profile')}
+        />
+      </View>
+    );
+  }
 
 export default function NavBar() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Notifications" component={Notifications} />
-      <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="Home" component={HomeScreen} />
     </Stack.Navigator>
   );
 }
