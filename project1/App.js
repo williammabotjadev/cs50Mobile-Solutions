@@ -11,19 +11,43 @@ export default function App() {
   const [breakValue, setBreakValue] = React.useState(5);
   const [workValueSecs, setWorkValueSecs] = React.useState(0);
   const [breakValueSecs, setBreakValueSecs] = React.useState(0);
-  const [startPauseLabel, setStartPauseLabel] = React.useState(runningState ? "Pause" : "Start");
+  const [startPauseLabel, setStartPauseLabel] = React.useState(runningState ? "Start" : "Pause");
 
   const handleReset = () => {
     setTimerValue(1500);
   }
 
+  const handleBreakMins = (e) => {
+    // DevSettings.reload();
+    if (e["nativeEvent"].text !== "")
+      setBreakValue(state => parseInt(e["nativeEvent"].text));
+  }
+
+  const handleBreakSecs = (e) => {
+    // DevSettings.reload();
+    if (e["nativeEvent"].text !== "")
+      setBreakValueSecs(state => parseInt(e["nativeEvent"].text));
+  }
+
+  const handleWorkMins = (e) => {
+    // DevSettings.reload();
+    if (e["nativeEvent"].text !== "")
+      setWorkValue(state => parseInt(e["nativeEvent"].text));
+  }
+
+  const handleWorkSecs = (e) => {
+    // DevSettings.reload();
+    if (e["nativeEvent"].text !== "")
+      setWorkValueSecs(state => parseInt(e["nativeEvent"].text));
+  }
+
   React.useEffect(() => {
-      console.log("timer value reset")
+      console.log("timer value reset");
   }, [timerValue])
 
   React.useEffect(() => {
       console.log("running state changed!");
-      setStartPauseLabel(state => state === "Pause" ? "Start" : "Pause");
+      setStartPauseLabel(state => state === "Start" ? "Pause" : "Start");
   }, [runningState])
   
   return (
@@ -72,16 +96,16 @@ export default function App() {
         <View style={styles.workTime}>
               <Text style={styles.workTimeTitle}>Work Time: </Text>
               <Text style={styles.inputLabel}>Mins: </Text>
-              <TextInput style={styles.timeInput} value={workValue.toString()} />
+              <TextInput style={styles.timeInput} value={workValue?.toString()} onChange={handleWorkMins} />
               <Text style={styles.inputLabelSecs}>Secs: </Text>
-              <TextInput style={styles.timeInputSecs} value={workValueSecs.toString()} />
+              <TextInput style={styles.timeInputSecs} value={workValueSecs?.toString()} onChange={handleWorkSecs} />
         </View>
         <View style={styles.breakTime}>
               <Text style={styles.breakTimeTitle}>Break Time: </Text>
               <Text style={styles.inputLabel}>Mins: </Text>
-              <TextInput style={styles.timeInput} value={breakValue.toString()} />
+              <TextInput style={styles.timeInput} editable={true} value={breakValue?.toString()} onChange={handleBreakMins} />
               <Text style={styles.inputLabelSecs}>Secs: </Text>
-              <TextInput style={styles.timeInputSecs} value={breakValueSecs.toString()} />
+              <TextInput style={styles.timeInputSecs} editable={true} value={breakValueSecs?.toString()} onChange={handleBreakSecs} />
         </View>
       </View>
       <StatusBar style="auto" />
@@ -152,7 +176,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
+    height: 20
   },
   timeInputSecs: {
     width: '15%',
@@ -161,7 +186,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
+    height: 20
   },
   inputLabel: {
     marginLeft: 40
